@@ -114,6 +114,10 @@ module Octopus
     ActiveRecord::VERSION::MAJOR == 5 && ActiveRecord::VERSION::MINOR == 2
   end
 
+  def self.rails60?
+    ActiveRecord::VERSION::MAJOR == 6 && ActiveRecord::VERSION::MINOR == 0
+  end
+
   def self.atleast_rails51?
     ActiveRecord::VERSION::MAJOR > 5 || (ActiveRecord::VERSION::MAJOR == 5 && ActiveRecord::VERSION::MINOR >= 1)
   end

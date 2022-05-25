@@ -118,6 +118,12 @@ module Octopus
     end
 
     def transaction(options = {}, &block)
+      if Octopus.rails60?
+        # In Rails 6.0.x, it is no longer possible to create transactions in Octopus.
+        # Because ActiveRecord treats Octopus transactions as lazy transactions and never "BEGIN" transaction
+        # This workaround disables lazy transactions and forces to create transaction.
+        select_connection.disable_lazy_transactions!
+      end
       if !sharded && current_model_replicated?
         run_queries_on_shard(Octopus.master_shard) do
           select_connection.transaction(options, &block)
